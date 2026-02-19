@@ -27,15 +27,14 @@ while True:
     for y in green_index:
         cleaned_greens[greens[y]] = greens[y+1]
     
-    for letter, pos in cleaned_greens:
+    for letter, pos in cleaned_greens.items():
         words = [word for word in words if word[int(pos) - 1] == letter]
     
-    for letter, pos in cleaned_yellows:
-        words = [word for word in my_list if letter in word]
-        words = [word for word in words if word[int(pos) - 1] != target_letter]
+    for letter, pos in cleaned_yellows.items():
+        words = [word for word in words if letter in word and word[int(pos) - 1] != letter]
     
     for letter in grays:
-        words = [word for word in my_list if letter not in word]
+        words = [word for word in words if letter not in word]
    
     print(words)    
     i = 1
