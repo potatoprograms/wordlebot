@@ -1,36 +1,34 @@
-file = open("words_alpha.txt")
-words = file.readlines()
+with open("words_alpha.txt") as f:
+    words = f.readlines()
 print("Initializing...")
 def remove_newlines(s):
     return s.replace('\n', '')
+
 words = [remove_newlines(item) for item in words]
 words = [word for word in words if len(list(word)) == 5]
-grays = []
-yellows = []
-greens = []
-print("Please enter any info you have (grays, yellows, greens) in the following format: grays: [letter], yellows: [letter]y[space], greens: [letter]g[space]. To exit: type 'end'")
-while True:
-    choice = input("")
-    if str.lower(choice) == "end":
-        break
-    if len(list(choice)) == 1:
-        grays.append(str.lower(choice))
-        continue
-    if list(str.lower(choice))[1] == "y":
-        yellows.append(list(str.lower(choice)))
-        continue
-    greens.append(list(str.lower(choice)))
-for green in greens:
-    my_list = words
-    target_letter = green[0]
-    words = [word for word in words if word[int(green[2]) - 1] == target_letter]
-for gray in grays:
-    my_list = words
-    target_letter = gray
-    words = [word for word in my_list if target_letter not in word]
-for yellow in yellows:
-    my_list = words
-    target_letter = yellow[0]
-    words = [word for word in my_list if target_letter in word]
-    words = [word for word in words if word[int(yellow[2]) - 1] != target_letter]
+grays = list(input("Enter all gray letters with no seperating characters").lower())
+yellows = list(input("Enter all yellow letters followed by the position in which they are yellow with no seperating characters").lower())
+greens = list(input("Enter all green letters followed by the position in which they are green with no seperating characters").lower())
+yellow_index = range(0, len(yellows))[::2]
+green_index = range(0, len(greens))[::2]
+
+cleaned_yellows = {}
+for y in yellow_index:
+    cleaned_yellows[yellows[y]] = yellows[y+1]
+    
+cleaned_greens = {}
+for y in green_index:
+    cleaned_greens[greens[y]] = greens[y+1]
+    
+for letter, pos in cleaned_greens:
+    words = [word for word in words if word[int(pos) - 1] == letter]
+    
+for letter, pos in cleaned_yellows:
+    words = [word for word in my_list if letter in word]
+    words = [word for word in words if word[int(pos) - 1] != target_letter]
+    
+for letter in grays:
+    words = [word for word in my_list if letter not in word]
+
+    
 print(words)    
